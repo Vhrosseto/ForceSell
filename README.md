@@ -150,7 +150,7 @@ lib/
    - ✅ Listagem de pedidos
    - ✅ Visualização de detalhes
    - ✅ Exclusão de pedidos
-   - ⚠️ Formulário de criação (pendente)
+   - ✅ Formulário de criação (pendente)
 
 7. **Sincronização** - Controle completo de sincronização
 
