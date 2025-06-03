@@ -25,7 +25,7 @@
     <a href="#instalacao">Instalação</a> •
     <a href="#uso">Como Usar</a> •
     <a href="#contribuicao">Contribuição</a> •
-    
+    <a href="#desenvolvedores">Desenvolvedores</a> 
   </p>
 </div>
 
