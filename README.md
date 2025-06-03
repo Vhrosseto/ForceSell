@@ -229,6 +229,23 @@ lib/
 
 <h2 id="uso">📱 Como Usar</h2>
 
+<h3>Recursos do Servidor</h3>
+
+<ul>
+  <li>
+    <strong>Download dos Arquivos:</strong>
+    <a href="https://drive.google.com/drive/folders/1q9bhcWDly9HVHVablsfGJqycYwmJVnrf?usp=sharing">Google Drive</a>
+    <ul>
+      <li>Servidor Java (Teste.jar)</li>
+      <li>Coleção do Insomnia para testes</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>Executando o Servidor</h3>
+
+<pre>java -jar Teste.jar</pre>
+
 <h3>Primeiro Acesso</h3>
 
 <ol>
