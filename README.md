@@ -303,7 +303,7 @@ lib/
 
 <div align="center">
   <h2 id="desenvolvedores">👥 Desenvolvedores</h2>
-<h2>👥 Desenvolvedores</h2>
+
 <table>
   <tr>
     <th>Nome</th>
