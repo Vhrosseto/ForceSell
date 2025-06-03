@@ -25,7 +25,7 @@
     <a href="#instalacao">Instalação</a> •
     <a href="#uso">Como Usar</a> •
     <a href="#contribuicao">Contribuição</a> •
-    <a href="#licenca">Licença</a>
+    
   </p>
 </div>
 
@@ -302,7 +302,7 @@ lib/
 <hr/>
 
 <div align="center">
-  <h2>👥 Desenvolvedores</h2>
+  <h2 id="desenvolvedores">👥 Desenvolvedores</h2>
 <table>
   <tr>
     <th>Nome</th>
