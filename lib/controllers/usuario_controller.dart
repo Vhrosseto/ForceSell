@@ -8,13 +8,17 @@ class UsuarioController {
 
   Future<int> inserir(Usuario usuario) async {
     final db = await _databaseHelper.database;
-    usuario = usuario.copyWith(dataUltimaAlteracao: DateTime.now());
-    return await db.insert('usuarios', usuario.toMap());
+    // Não definir dataUltimaAlteracao automaticamente para novos registros
+    // Isso permite identificá-los na sincronização como registros que precisam ser enviados
+    return await db.insert('usuarios', usuario.toMapDatabase());
   }
 
   Future<List<Usuario>> listarTodos() async {
     final db = await _databaseHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query('usuarios');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'usuarios',
+      where: 'deleted = 0',
+    );
     return List.generate(maps.length, (i) => Usuario.fromMap(maps[i]));
   }
 
@@ -49,7 +53,7 @@ class UsuarioController {
     usuario = usuario.copyWith(dataUltimaAlteracao: DateTime.now());
     return await db.update(
       'usuarios',
-      usuario.toMap(),
+      usuario.toMapDatabase(),
       where: 'id = ?',
       whereArgs: [usuario.id],
     );
@@ -57,7 +61,27 @@ class UsuarioController {
 
   Future<int> deletar(int id) async {
     final db = await _databaseHelper.database;
+    // Fazer soft delete e atualizar data de alteração
+    return await db.update(
+      'usuarios',
+      {'deleted': 1, 'data_ultima_alteracao': DateTime.now().toIso8601String()},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<int> deletarDefinitivamente(int id) async {
+    final db = await _databaseHelper.database;
     return await db.delete('usuarios', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Usuario>> listarDeletados() async {
+    final db = await _databaseHelper.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'usuarios',
+      where: 'deleted = 1',
+    );
+    return List.generate(maps.length, (i) => Usuario.fromMap(maps[i]));
   }
 
   Future<bool> validarCamposObrigatorios(Usuario usuario) async {

@@ -32,7 +32,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nome TEXT NOT NULL,
         senha TEXT NOT NULL,
-        data_ultima_alteracao TEXT
+        data_ultima_alteracao TEXT,
+        deleted INTEGER DEFAULT 0
       )
     ''');
 
@@ -50,7 +51,8 @@ class DatabaseHelper {
         bairro TEXT,
         cidade TEXT,
         uf TEXT,
-        data_ultima_alteracao TEXT
+        data_ultima_alteracao TEXT,
+        deleted INTEGER DEFAULT 0
       )
     ''');
 
@@ -65,7 +67,8 @@ class DatabaseHelper {
         status INTEGER NOT NULL,
         custo REAL,
         codigo_barra TEXT,
-        data_ultima_alteracao TEXT
+        data_ultima_alteracao TEXT,
+        deleted INTEGER DEFAULT 0
       )
     ''');
 
@@ -78,6 +81,7 @@ class DatabaseHelper {
         total_pedido REAL NOT NULL,
         data_criacao TEXT NOT NULL,
         data_ultima_alteracao TEXT,
+        deleted INTEGER DEFAULT 0,
         FOREIGN KEY (id_cliente) REFERENCES clientes (id),
         FOREIGN KEY (id_usuario) REFERENCES usuarios (id)
       )
@@ -128,5 +132,14 @@ class DatabaseHelper {
   Future<void> close() async {
     final db = await database;
     db.close();
+  }
+
+  Future<void> clearAllTables() async {
+    final db = await database;
+    await db.delete('usuarios');
+    await db.delete('clientes');
+    await db.delete('produtos');
+    await db.delete('pedidos');
+    // Adicione outras tabelas se necessário
   }
 }

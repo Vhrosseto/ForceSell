@@ -8,13 +8,17 @@ class ClienteController {
 
   Future<int> inserir(Cliente cliente) async {
     final db = await _databaseHelper.database;
-    cliente = cliente.copyWith(dataUltimaAlteracao: DateTime.now());
-    return await db.insert('clientes', cliente.toMap());
+    // Não definir dataUltimaAlteracao automaticamente para novos registros
+    // Isso permite identificá-los na sincronização como registros que precisam ser enviados
+    return await db.insert('clientes', cliente.toMapDatabase());
   }
 
   Future<List<Cliente>> listarTodos() async {
     final db = await _databaseHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query('clientes');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'clientes',
+      where: 'deleted = 0',
+    );
     return List.generate(maps.length, (i) => Cliente.fromMap(maps[i]));
   }
 
@@ -36,7 +40,7 @@ class ClienteController {
     cliente = cliente.copyWith(dataUltimaAlteracao: DateTime.now());
     return await db.update(
       'clientes',
-      cliente.toMap(),
+      cliente.toMapDatabase(),
       where: 'id = ?',
       whereArgs: [cliente.id],
     );
@@ -44,7 +48,27 @@ class ClienteController {
 
   Future<int> deletar(int id) async {
     final db = await _databaseHelper.database;
+    // Fazer soft delete e atualizar data de alteração
+    return await db.update(
+      'clientes',
+      {'deleted': 1, 'data_ultima_alteracao': DateTime.now().toIso8601String()},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<int> deletarDefinitivamente(int id) async {
+    final db = await _databaseHelper.database;
     return await db.delete('clientes', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Cliente>> listarDeletados() async {
+    final db = await _databaseHelper.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'clientes',
+      where: 'deleted = 1',
+    );
+    return List.generate(maps.length, (i) => Cliente.fromMap(maps[i]));
   }
 
   Future<bool> validarCamposObrigatorios(Cliente cliente) async {

@@ -10,14 +10,20 @@ class PedidoPagamento {
   });
 
   Map<String, dynamic> toMap() {
+    return {'id': id, 'idPedido': idPedido, 'valor': valorPagamento};
+  }
+
+  /// Método específico para operações do banco de dados local
+  Map<String, dynamic> toMapDatabase() {
     return {'id_pedido': idPedido, 'id': id, 'valor_pagamento': valorPagamento};
   }
 
   factory PedidoPagamento.fromMap(Map<String, dynamic> map) {
     return PedidoPagamento(
-      idPedido: map['id_pedido'],
       id: map['id'],
-      valorPagamento: map['valor_pagamento']?.toDouble() ?? 0.0,
+      idPedido: map['idPedido'] ?? map['id_pedido'],
+      valorPagamento:
+          (map['valor'] ?? map['valor_pagamento'])?.toDouble() ?? 0.0,
     );
   }
 

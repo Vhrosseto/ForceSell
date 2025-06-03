@@ -15,6 +15,17 @@ class PedidoItem {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
+      'idPedido': idPedido,
+      'idProduto': idProduto,
+      'quantidade': quantidade,
+      'totalItem': totalItem,
+    };
+  }
+
+  /// Método específico para operações do banco de dados local
+  Map<String, dynamic> toMapDatabase() {
+    return {
       'id_pedido': idPedido,
       'id': id,
       'id_produto': idProduto,
@@ -25,11 +36,11 @@ class PedidoItem {
 
   factory PedidoItem.fromMap(Map<String, dynamic> map) {
     return PedidoItem(
-      idPedido: map['id_pedido'],
       id: map['id'],
-      idProduto: map['id_produto'],
-      quantidade: map['quantidade']?.toDouble() ?? 0.0,
-      totalItem: map['total_item']?.toDouble() ?? 0.0,
+      idPedido: map['idPedido'] ?? map['id_pedido'],
+      idProduto: map['idProduto'] ?? map['id_produto'],
+      quantidade: (map['quantidade'])?.toDouble() ?? 0.0,
+      totalItem: (map['totalItem'] ?? map['total_item'])?.toDouble() ?? 0.0,
     );
   }
 

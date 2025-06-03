@@ -29,20 +29,20 @@ class PedidoController {
     }
 
     return await db.transaction((txn) async {
-      // Inserir pedido
-      pedido = pedido.copyWith(dataUltimaAlteracao: DateTime.now());
-      int pedidoId = await txn.insert('pedidos', pedido.toMap());
+      // Inserir pedido - não definir dataUltimaAlteracao automaticamente para novos registros
+      // Isso permite identificá-los na sincronização como registros que precisam ser enviados
+      int pedidoId = await txn.insert('pedidos', pedido.toMapDatabase());
 
       // Inserir itens
       for (var item in itens) {
         item = item.copyWith(idPedido: pedidoId);
-        await txn.insert('pedido_itens', item.toMap());
+        await txn.insert('pedido_itens', item.toMapDatabase());
       }
 
       // Inserir pagamentos
       for (var pagamento in pagamentos) {
         pagamento = pagamento.copyWith(idPedido: pedidoId);
-        await txn.insert('pedido_pagamentos', pagamento.toMap());
+        await txn.insert('pedido_pagamentos', pagamento.toMapDatabase());
       }
 
       return pedidoId;
@@ -51,7 +51,10 @@ class PedidoController {
 
   Future<List<Pedido>> listarTodos() async {
     final db = await _databaseHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query('pedidos');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'pedidos',
+      where: 'deleted = 0',
+    );
     return List.generate(maps.length, (i) => Pedido.fromMap(maps[i]));
   }
 
@@ -109,11 +112,11 @@ class PedidoController {
     }
 
     return await db.transaction((txn) async {
-      // Atualizar pedido
+      // Atualizar pedido com nova data de alteração
       pedido = pedido.copyWith(dataUltimaAlteracao: DateTime.now());
       int result = await txn.update(
         'pedidos',
-        pedido.toMap(),
+        pedido.toMapDatabase(),
         where: 'id = ?',
         whereArgs: [pedido.id],
       );
@@ -133,13 +136,13 @@ class PedidoController {
       // Inserir novos itens
       for (var item in itens) {
         item = item.copyWith(idPedido: pedido.id!);
-        await txn.insert('pedido_itens', item.toMap());
+        await txn.insert('pedido_itens', item.toMapDatabase());
       }
 
       // Inserir novos pagamentos
       for (var pagamento in pagamentos) {
         pagamento = pagamento.copyWith(idPedido: pedido.id!);
-        await txn.insert('pedido_pagamentos', pagamento.toMap());
+        await txn.insert('pedido_pagamentos', pagamento.toMapDatabase());
       }
 
       return result;
@@ -147,6 +150,16 @@ class PedidoController {
   }
 
   Future<int> deletar(int id) async {
+    final db = await _databaseHelper.database;
+    return await db.update(
+      'pedidos',
+      {'deleted': 1, 'data_ultima_alteracao': DateTime.now().toIso8601String()},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<int> deletarDefinitivamente(int id) async {
     final db = await _databaseHelper.database;
     return await db.transaction((txn) async {
       // Remover itens e pagamentos
@@ -160,6 +173,15 @@ class PedidoController {
       // Remover pedido
       return await txn.delete('pedidos', where: 'id = ?', whereArgs: [id]);
     });
+  }
+
+  Future<List<Pedido>> listarDeletados() async {
+    final db = await _databaseHelper.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'pedidos',
+      where: 'deleted = 1',
+    );
+    return List.generate(maps.length, (i) => Pedido.fromMap(maps[i]));
   }
 
   Future<bool> validarPedido(

@@ -32,6 +32,24 @@ class Cliente {
       'id': id,
       'nome': nome,
       'tipo': tipo,
+      'cpfCnpj': cpfCnpj,
+      'email': email,
+      'telefone': telefone,
+      'cep': cep,
+      'endereço': endereco,
+      'bairro': bairro,
+      'cidade': cidade,
+      'uf': uf,
+      'data_ultima_alteracao': dataUltimaAlteracao?.toIso8601String(),
+    };
+  }
+
+  /// Método específico para operações do banco de dados local
+  Map<String, dynamic> toMapDatabase() {
+    return {
+      'id': id,
+      'nome': nome,
+      'tipo': tipo,
       'cpf_cnpj': cpfCnpj,
       'email': email,
       'telefone': telefone,
@@ -47,18 +65,20 @@ class Cliente {
   factory Cliente.fromMap(Map<String, dynamic> map) {
     return Cliente(
       id: map['id'],
-      nome: map['nome'],
-      tipo: map['tipo'],
-      cpfCnpj: map['cpf_cnpj'],
+      nome: map['nome'] ?? '',
+      tipo: map['tipo'] ?? '',
+      cpfCnpj: map['cpfCnpj'] ?? map['cpf_cnpj'] ?? '',
       email: map['email'],
       telefone: map['telefone'],
       cep: map['cep'],
-      endereco: map['endereco'],
+      endereco: map['endereço'] ?? map['endereco'],
       bairro: map['bairro'],
       cidade: map['cidade'],
       uf: map['uf'],
       dataUltimaAlteracao:
-          map['data_ultima_alteracao'] != null
+          map['ultimaAlteracao'] != null
+              ? DateTime.parse(map['ultimaAlteracao'])
+              : map['data_ultima_alteracao'] != null
               ? DateTime.parse(map['data_ultima_alteracao'])
               : null,
     );

@@ -8,6 +8,7 @@ class Produto {
   double? custo;
   String? codigoBarra;
   DateTime? dataUltimaAlteracao;
+  bool deleted;
 
   Produto({
     this.id,
@@ -19,9 +20,26 @@ class Produto {
     this.custo,
     this.codigoBarra,
     this.dataUltimaAlteracao,
+    this.deleted = false,
   });
 
   Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'unidade': unidade,
+      'qtdEstoque': qtdEstoque,
+      'precoVenda': precoVenda,
+      'Status': status,
+      'custo': custo,
+      'codigoBarra': codigoBarra,
+      'data_ultima_alteracao': dataUltimaAlteracao?.toIso8601String(),
+      'deleted': deleted ? 1 : 0,
+    };
+  }
+
+  /// Método específico para operações do banco de dados local
+  Map<String, dynamic> toMapDatabase() {
     return {
       'id': id,
       'nome': nome,
@@ -32,23 +50,27 @@ class Produto {
       'custo': custo,
       'codigo_barra': codigoBarra,
       'data_ultima_alteracao': dataUltimaAlteracao?.toIso8601String(),
+      'deleted': deleted ? 1 : 0,
     };
   }
 
   factory Produto.fromMap(Map<String, dynamic> map) {
     return Produto(
       id: map['id'],
-      nome: map['nome'],
-      unidade: map['unidade'],
-      qtdEstoque: map['qtd_estoque']?.toDouble() ?? 0.0,
-      precoVenda: map['preco_venda']?.toDouble() ?? 0.0,
-      status: map['status'],
+      nome: map['nome'] ?? '',
+      unidade: (map['unidade'] ?? 'un').toLowerCase(),
+      qtdEstoque: (map['qtdEstoque'] ?? map['qtd_estoque'])?.toDouble() ?? 0.0,
+      precoVenda: (map['precoVenda'] ?? map['preco_venda'])?.toDouble() ?? 0.0,
+      status: map['Status'] ?? map['status'] ?? 0,
       custo: map['custo']?.toDouble(),
-      codigoBarra: map['codigo_barra'],
+      codigoBarra: map['codigoBarra'] ?? map['codigo_barra'],
       dataUltimaAlteracao:
-          map['data_ultima_alteracao'] != null
+          map['ultimaAlteracao'] != null
+              ? DateTime.parse(map['ultimaAlteracao'])
+              : map['data_ultima_alteracao'] != null
               ? DateTime.parse(map['data_ultima_alteracao'])
               : null,
+      deleted: (map['deleted'] == 1) || (map['deleted'] == true),
     );
   }
 
@@ -62,6 +84,7 @@ class Produto {
     double? custo,
     String? codigoBarra,
     DateTime? dataUltimaAlteracao,
+    bool? deleted,
   }) {
     return Produto(
       id: id ?? this.id,
@@ -73,6 +96,7 @@ class Produto {
       custo: custo ?? this.custo,
       codigoBarra: codigoBarra ?? this.codigoBarra,
       dataUltimaAlteracao: dataUltimaAlteracao ?? this.dataUltimaAlteracao,
+      deleted: deleted ?? this.deleted,
     );
   }
 }

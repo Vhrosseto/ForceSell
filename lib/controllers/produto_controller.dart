@@ -8,13 +8,15 @@ class ProdutoController {
 
   Future<int> inserir(Produto produto) async {
     final db = await _databaseHelper.database;
-    produto = produto.copyWith(dataUltimaAlteracao: DateTime.now());
-    return await db.insert('produtos', produto.toMap());
+    return await db.insert('produtos', produto.toMapDatabase());
   }
 
   Future<List<Produto>> listarTodos() async {
     final db = await _databaseHelper.database;
-    final List<Map<String, dynamic>> maps = await db.query('produtos');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'produtos',
+      where: 'deleted = 0',
+    );
     return List.generate(maps.length, (i) => Produto.fromMap(maps[i]));
   }
 
@@ -22,7 +24,7 @@ class ProdutoController {
     final db = await _databaseHelper.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'produtos',
-      where: 'status = ?',
+      where: 'status = ? AND deleted = 0',
       whereArgs: [0],
     );
     return List.generate(maps.length, (i) => Produto.fromMap(maps[i]));
@@ -46,7 +48,7 @@ class ProdutoController {
     produto = produto.copyWith(dataUltimaAlteracao: DateTime.now());
     return await db.update(
       'produtos',
-      produto.toMap(),
+      produto.toMapDatabase(),
       where: 'id = ?',
       whereArgs: [produto.id],
     );
@@ -54,7 +56,12 @@ class ProdutoController {
 
   Future<int> deletar(int id) async {
     final db = await _databaseHelper.database;
-    return await db.delete('produtos', where: 'id = ?', whereArgs: [id]);
+    return await db.update(
+      'produtos',
+      {'deleted': 1, 'data_ultima_alteracao': DateTime.now().toIso8601String()},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   Future<bool> validarCamposObrigatorios(Produto produto) async {
@@ -101,7 +108,7 @@ class ProdutoController {
     final db = await _databaseHelper.database;
     final List<Map<String, dynamic>> maps = await db.query(
       'produtos',
-      where: 'nome LIKE ?',
+      where: 'nome LIKE ? AND deleted = 0',
       whereArgs: ['%$nome%'],
     );
     return List.generate(maps.length, (i) => Produto.fromMap(maps[i]));
@@ -154,4 +161,18 @@ class ProdutoController {
   }
 
   List<String> get unidadesDisponiveis => ['un', 'cx', 'kg', 'lt', 'ml'];
+
+  Future<int> deletarDefinitivamente(int id) async {
+    final db = await _databaseHelper.database;
+    return await db.delete('produtos', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<List<Produto>> listarDeletados() async {
+    final db = await _databaseHelper.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'produtos',
+      where: 'deleted = 1',
+    );
+    return List.generate(maps.length, (i) => Produto.fromMap(maps[i]));
+  }
 }

@@ -36,6 +36,22 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
+      // Permitir admin/admin mesmo sem estar no banco
+      if (_nomeController.text.trim() == 'admin' &&
+          _senhaController.text == 'admin') {
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder:
+                  (context) => HomeScreen(
+                    usuario: Usuario(id: 0, nome: 'admin', senha: 'admin'),
+                  ),
+            ),
+          );
+        }
+        return;
+      }
+
       final usuario = await _usuarioController.autenticar(
         _nomeController.text.trim(),
         _senhaController.text,

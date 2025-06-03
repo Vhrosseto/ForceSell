@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../controllers/configuracao_controller.dart';
 // ignore: unused_import
 import '../models/configuracao.dart';
+import '../database/database_helper.dart';
 
 class ConfiguracaoScreen extends StatefulWidget {
   const ConfiguracaoScreen({super.key});
@@ -288,6 +289,11 @@ class _ConfiguracaoScreenState extends State<ConfiguracaoScreen> {
                                 '/produtos',
                                 'Buscar produtos',
                               ),
+                              _buildEndpointInfo(
+                                'GET',
+                                '/pedidos',
+                                'Buscar pedidos',
+                              ),
                               const Divider(),
                               _buildEndpointInfo(
                                 'POST',
@@ -309,12 +315,109 @@ class _ConfiguracaoScreenState extends State<ConfiguracaoScreen> {
                                 '/pedidos',
                                 'Enviar pedidos',
                               ),
+                              const Divider(),
+                              _buildEndpointInfo(
+                                'DELETE',
+                                '/usuarios',
+                                'Excluir usuários',
+                              ),
+                              _buildEndpointInfo(
+                                'DELETE',
+                                '/clientes',
+                                'Excluir clientes',
+                              ),
+                              _buildEndpointInfo(
+                                'DELETE',
+                                '/produtos',
+                                'Excluir produtos',
+                              ),
+                              _buildEndpointInfo(
+                                'DELETE',
+                                '/pedidos',
+                                'Excluir pedidos',
+                              ),
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 24),
 
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          onPressed:
+                              _isSaving
+                                  ? null
+                                  : () async {
+                                    setState(() {
+                                      _isSaving = true;
+                                    });
+                                    try {
+                                      final dbHelper = DatabaseHelper();
+                                      await dbHelper.clearAllTables();
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          // ignore: use_build_context_synchronously
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Todos os dados deletados com sucesso',
+                                            ),
+                                            backgroundColor: Colors.green,
+                                          ),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          // ignore: use_build_context_synchronously
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Erro ao deletar dados: $e',
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
+                                    } finally {
+                                      if (mounted) {
+                                        setState(() {
+                                          _isSaving = false;
+                                        });
+                                      }
+                                    }
+                                  },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade600,
+                            foregroundColor: Colors.white,
+                          ),
+                          child:
+                              _isSaving
+                                  ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                  : const Text(
+                                    'Deletar Todos os Dados',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 16),
                       // Botão Salvar
                       SizedBox(
                         width: double.infinity,

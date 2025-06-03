@@ -18,6 +18,18 @@ class Pedido {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
+      'idCliente': idCliente,
+      'idUsuario': idUsuario,
+      'totalPedido': totalPedido,
+      'data_criacao': dataCriacao.toIso8601String(),
+      'data_ultima_alteracao': dataUltimaAlteracao?.toIso8601String(),
+    };
+  }
+
+  /// Método específico para operações do banco de dados local
+  Map<String, dynamic> toMapDatabase() {
+    return {
+      'id': id,
       'id_cliente': idCliente,
       'id_usuario': idUsuario,
       'total_pedido': totalPedido,
@@ -29,12 +41,15 @@ class Pedido {
   factory Pedido.fromMap(Map<String, dynamic> map) {
     return Pedido(
       id: map['id'],
-      idCliente: map['id_cliente'],
-      idUsuario: map['id_usuario'],
-      totalPedido: map['total_pedido']?.toDouble() ?? 0.0,
+      idCliente: map['idCliente'] ?? map['id_cliente'],
+      idUsuario: map['idUsuario'] ?? map['id_usuario'],
+      totalPedido:
+          (map['totalPedido'] ?? map['total_pedido'])?.toDouble() ?? 0.0,
       dataCriacao: DateTime.parse(map['data_criacao']),
       dataUltimaAlteracao:
-          map['data_ultima_alteracao'] != null
+          map['ultimaAlteracao'] != null
+              ? DateTime.parse(map['ultimaAlteracao'])
+              : map['data_ultima_alteracao'] != null
               ? DateTime.parse(map['data_ultima_alteracao'])
               : null,
     );

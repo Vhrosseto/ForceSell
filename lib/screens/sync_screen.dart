@@ -16,6 +16,7 @@ class _SyncScreenState extends State<SyncScreen> with TickerProviderStateMixin {
   late TabController _tabController;
   String _statusAtual = '';
   int _progressoAtual = 0;
+  // ignore: prefer_final_fields
   int _totalEtapas = 7;
 
   @override
@@ -513,6 +514,7 @@ class _SyncScreenState extends State<SyncScreen> with TickerProviderStateMixin {
           Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
+              // ignore: deprecated_member_use
               color: color.withOpacity(0.1),
               borderRadius: BorderRadius.circular(6),
             ),
