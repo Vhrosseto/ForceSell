@@ -24,7 +24,6 @@
     <a href="#arquitetura">Arquitetura</a> •
     <a href="#instalacao">Instalação</a> •
     <a href="#uso">Como Usar</a> •
-    <a href="#contribuicao">Contribuição</a> •
     <a href="#desenvolvedores">Desenvolvedores</a> 
   </p>
 </div>
@@ -273,31 +272,6 @@ lib/
     </ul>
   </div>
 </div>
-
-<hr/>
-
-<h2 id="contribuicao">🤝 Contribuição</h2>
-
-<p>
-  Contribuições são sempre bem-vindas! Para contribuir com o projeto:
-</p>
-
-<ol>
-  <li>Faça um Fork do projeto</li>
-  <li>Crie uma Branch para sua Feature (<code>git checkout -b feature/AmazingFeature</code>)</li>
-  <li>Commit suas mudanças (<code>git commit -m 'Add some AmazingFeature'</code>)</li>
-  <li>Push para a Branch (<code>git push origin feature/AmazingFeature</code>)</li>
-  <li>Abra um Pull Request</li>
-</ol>
-
-<h3>Padrões de Código</h3>
-
-<ul>
-  <li>Siga o guia de estilo do Flutter</li>
-  <li>Documente novas funcionalidades</li>
-  <li>Adicione testes quando possível</li>
-  <li>Mantenha o código limpo e organizado</li>
-</ul>
 
 <hr/>
 
