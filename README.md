@@ -301,14 +301,6 @@ lib/
 
 <hr/>
 
-<h2 id="licenca">📄 Licença</h2>
-
-<p>
-  Este projeto está sob a licença MIT. Veja o arquivo <a href="LICENSE">LICENSE</a> para mais detalhes.
-</p>
-
-<hr/>
-
 <div align="center">
   <h2>👥 Desenvolvedores</h2>
 <table>
