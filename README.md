@@ -1,200 +1,323 @@
-# ForceSell - Sistema de Vendas
+<div align="center">
+  <img src="assets/logo.png" alt="ForceSell Logo" width="200"/>
+  
+  <h1>ForceSell</h1>
+  <h3>Sistema de Gestão de Vendas Offline-First</h3>
+  
+  <p>
+    <img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter"/>
+    <img src="https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite"/>
+    <img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart"/>
+    <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android"/>
+    <img src="https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white" alt="iOS"/>
+  </p>
+</div>
 
-Sistema de vendas desenvolvido em Flutter com banco de dados SQLite local e sincronização com servidor.
+<hr/>
 
-## Funcionalidades
+<div align="center">
+  <h2>📋 Índice</h2>
+  <p>
+    <a href="#sobre">Sobre</a> •
+    <a href="#funcionalidades">Funcionalidades</a> •
+    <a href="#tecnologias">Tecnologias</a> •
+    <a href="#arquitetura">Arquitetura</a> •
+    <a href="#instalacao">Instalação</a> •
+    <a href="#uso">Como Usar</a> •
+    <a href="#contribuicao">Contribuição</a> •
+    <a href="#licenca">Licença</a>
+  </p>
+</div>
 
-### 1. Autenticação
+<hr/>
 
-- Tela de login com validação
-- Usuário padrão: `admin` / Senha: `admin`
+<h2 id="sobre">📖 Sobre o Projeto</h2>
 
-### 2. Cadastros (CRUD Completo)
+<p>
+  O ForceSell é um sistema de gestão de vendas desenvolvido em Flutter que opera principalmente offline, 
+  com capacidade de sincronização automática quando há conexão com o servidor. O sistema foi projetado 
+  para funcionar em ambientes com conectividade instável, garantindo que as operações continuem 
+  funcionando mesmo sem internet.
+</p>
 
-- **Usuários**: Gerenciamento de usuários do sistema
-- **Clientes**: Cadastro de clientes (Pessoa Física/Jurídica) com validação de CPF/CNPJ
-- **Produtos**: Cadastro de produtos com controle de estoque
-- **Pedidos**: Criação de pedidos com itens e pagamentos
+<h3>🎯 Objetivos</h3>
 
-### 3. Funcionalidades Especiais
+<ul>
+  <li>Fornecer uma solução robusta para gestão de vendas offline</li>
+  <li>Garantir sincronização confiável dos dados</li>
+  <li>Oferecer interface intuitiva e responsiva</li>
+  <li>Manter alta performance mesmo em dispositivos de baixo custo</li>
+</ul>
 
-- **Consulta CEP**: Integração com API ViaCEP para preenchimento automático de endereços
-- **Validações**: CPF, CNPJ, campos obrigatórios
-- **Sincronização**: Envio e recebimento de dados do servidor
-- **Configurações**: Configuração do servidor de sincronização
+<hr/>
 
-## Estrutura do Banco de Dados
+<h2 id="funcionalidades">🚀 Funcionalidades</h2>
 
-### Tabelas
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+  <div>
+    <h3>👥 Gestão de Usuários</h3>
+    <ul>
+      <li>Cadastro e autenticação</li>
+      <li>Controle de permissões</li>
+      <li>Sincronização entre dispositivos</li>
+      <li>Histórico de atividades</li>
+    </ul>
+  </div>
 
-- `usuarios` - Dados dos usuários do sistema
-- `clientes` - Cadastro de clientes
-- `produtos` - Catálogo de produtos
-- `pedidos` - Cabeçalho dos pedidos
-- `pedido_itens` - Itens dos pedidos
-- `pedido_pagamentos` - Formas de pagamento dos pedidos
-- `configuracoes` - Configurações do sistema
+  <div>
+    <h3>👤 Gestão de Clientes</h3>
+    <ul>
+      <li>Cadastro PF/PJ completo</li>
+      <li>Histórico de compras</li>
+      <li>Endereçamento automático</li>
+      <li>Validação de documentos</li>
+    </ul>
+  </div>
 
-### Campos de Controle
+  <div>
+    <h3>📦 Gestão de Produtos</h3>
+    <ul>
+      <li>Controle de estoque</li>
+      <li>Código de barras</li>
+      <li>Preços e custos</li>
+      <li>Status ativo/inativo</li>
+    </ul>
+  </div>
 
-Todas as tabelas possuem o campo `data_ultima_alteracao` para controle de sincronização.
+  <div>
+    <h3>🛍️ Gestão de Pedidos</h3>
+    <ul>
+      <li>Criação offline</li>
+      <li>Múltiplos pagamentos</li>
+      <li>Histórico de vendas</li>
+      <li>Relatórios gerenciais</li>
+    </ul>
+  </div>
+</div>
 
-## Regras de Negócio
+<hr/>
 
-### Pedidos
+<h2 id="tecnologias">🛠️ Tecnologias</h2>
 
-- Deve ter pelo menos 1 item e 1 pagamento
-- Soma dos pagamentos deve ser igual ao total dos itens
-- Validação de consistência antes de salvar
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+  <div>
+    <h3>Frontend</h3>
+    <ul>
+      <li>Flutter</li>
+      <li>Material Design</li>
+      <li>Provider (Gerenciamento de Estado)</li>
+    </ul>
+  </div>
 
-### Sincronização
+  <div>
+    <h3>Backend</h3>
+    <ul>
+      <li>SQLite (Local)</li>
+      <li>HTTP (Comunicação)</li>
+      <li>REST API</li>
+    </ul>
+  </div>
 
-- Registros novos (sem `data_ultima_alteracao`) são enviados ao servidor
-- Registros do servidor com data mais recente atualizam os locais
-- Controle de erros por entidade
+  <div>
+    <h3>Ferramentas</h3>
+    <ul>
+      <li>Git (Versionamento)</li>
+      <li>VS Code (IDE)</li>
+      <li>Insomnia (Testes API)</li>
+    </ul>
+  </div>
+</div>
 
-## Dependências
+<hr/>
 
-```yaml
-dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.8
-  sqflite: ^2.3.0
-  http: ^1.1.0
-  path: ^1.8.3
-```
+<h2 id="arquitetura">🏗️ Arquitetura</h2>
 
-## Como Executar
+<h3>Estrutura do Projeto</h3>
 
-1. Clone o repositório
-2. Execute `flutter pub get` para instalar as dependências
-3. Execute `flutter run` para iniciar o aplicativo
-
-## APIs Utilizadas
-
-- **ViaCEP**: `https://viacep.com.br/ws/{cep}/json/` - Consulta de CEP
-- **Servidor Local**: `localhost:8080` - Sincronização de dados
-
-## Endpoints de Sincronização
-
-### GET (Buscar dados do servidor)
-
-- `/usuarios`
-- `/clientes`
-- `/produtos`
-
-### POST (Enviar dados para o servidor)
-
-- `/usuarios`
-- `/clientes`
-- `/produtos`
-- `/pedidos`
-
-## Estrutura do Projeto
-
-```
+<pre>
 lib/
-├── controllers/          # Controladores (DAOs)
-├── database/            # Helper do banco SQLite
-├── models/              # Modelos de dados
-├── screens/             # Telas do aplicativo
-├── services/            # Serviços (CEP, Sync)
-└── main.dart           # Arquivo principal
-```
+├── controllers/     # Lógica de negócio
+│   ├── usuario_controller.dart
+│   ├── cliente_controller.dart
+│   ├── produto_controller.dart
+│   └── pedido_controller.dart
+├── database/        # Configuração SQLite
+│   └── database_helper.dart
+├── models/          # Modelos de dados
+│   ├── usuario.dart
+│   ├── cliente.dart
+│   ├── produto.dart
+│   └── pedido.dart
+├── screens/         # Interface do usuário
+│   ├── login/
+│   ├── home/
+│   ├── clientes/
+│   ├── produtos/
+│   └── pedidos/
+└── services/        # Serviços externos
+    └── sync_service.dart
+</pre>
 
-## Telas Implementadas
+<h3>Sistema de Sincronização</h3>
 
-### ✅ **Telas Completas com CRUD**
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+  <div>
+    <h4>1. Operação Local</h4>
+    <ul>
+      <li>Dados salvos primeiro no SQLite</li>
+      <li>Marcados com timestamp</li>
+      <li>Disponíveis offline</li>
+    </ul>
+  </div>
 
-1. **Login** - Autenticação de usuários
+  <div>
+    <h4>2. Sincronização</h4>
+    <ul>
+      <li>Envio de dados novos</li>
+      <li>Atualizações recentes</li>
+      <li>Exclusões pendentes</li>
+    </ul>
+  </div>
 
-   - Validação de credenciais
-   - Usuário padrão: admin/admin
-   - Navegação para tela principal
+  <div>
+    <h4>3. Resolução de Conflitos</h4>
+    <ul>
+      <li>Baseado em timestamps</li>
+      <li>Soft delete</li>
+      <li>Log de operações</li>
+    </ul>
+  </div>
+</div>
 
-2. **Home** - Menu principal com navegação
+<hr/>
 
-   - Cards de navegação para todas as funcionalidades
-   - Interface moderna e intuitiva
-   - Informações do usuário logado
+<h2 id="instalacao">📦 Instalação</h2>
 
-3. **Usuários** - Gerenciamento completo de usuários
+<h3>Pré-requisitos</h3>
 
-   - ✅ Listagem com busca
-   - ✅ Formulário de cadastro/edição
-   - ✅ Validações (nome único, campos obrigatórios)
-   - ✅ Exclusão com confirmação
-   - ✅ CRUD completo
+<ul>
+  <li>Flutter SDK (versão 3.0.0 ou superior)</li>
+  <li>Dart SDK (versão 2.17.0 ou superior)</li>
+  <li>Android Studio / VS Code</li>
+  <li>Git</li>
+</ul>
 
-4. **Clientes** - Cadastro completo de clientes
+<h3>Passos para Instalação</h3>
 
-   - ✅ Listagem com busca por nome
-   - ✅ Formulário completo (PF/PJ)
-   - ✅ Integração com API ViaCEP
-   - ✅ Validação de CPF/CNPJ
-   - ✅ Campos de endereço completos
-   - ✅ CRUD completo
+<ol>
+  <li>
+    <strong>Clone o repositório</strong>
+    <pre>git clone https://github.com/seu-usuario/forcesell.git</pre>
+  </li>
+  
+  <li>
+    <strong>Instale as dependências</strong>
+    <pre>flutter pub get</pre>
+  </li>
+  
+  <li>
+    <strong>Configure o ambiente</strong>
+    <pre>flutter doctor</pre>
+  </li>
+  
+  <li>
+    <strong>Execute o projeto</strong>
+    <pre>flutter run</pre>
+  </li>
+</ol>
 
-5. **Produtos** - Catálogo completo de produtos
+<hr/>
 
-   - ✅ Listagem com filtro (ativos/todos)
-   - ✅ Formulário com todas as validações
-   - ✅ Controle de estoque e preços
-   - ✅ Status ativo/inativo
-   - ✅ Código de barras opcional
-   - ✅ CRUD completo
+<h2 id="uso">📱 Como Usar</h2>
 
-6. **Pedidos** - Gestão de pedidos (básico)
+<h3>Primeiro Acesso</h3>
 
-   - ✅ Listagem de pedidos
-   - ✅ Visualização de detalhes
-   - ✅ Exclusão de pedidos
-   - ✅ Formulário de criação (pendente)
+<ol>
+  <li>Use as credenciais padrão:
+    <ul>
+      <li>Usuário: admin</li>
+      <li>Senha: admin</li>
+    </ul>
+  </li>
+  <li>Configure o servidor de sincronização</li>
+  <li>Execute a primeira sincronização</li>
+</ol>
 
-7. **Sincronização** - Controle completo de sincronização
+<h3>Operações Principais</h3>
 
-   - ✅ Interface de sincronização
-   - ✅ Relatório de erros por entidade
-   - ✅ Indicadores de progresso
-   - ✅ Integração com SyncService
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+  <div>
+    <h4>Cadastros</h4>
+    <ul>
+      <li>Clientes (PF/PJ)</li>
+      <li>Produtos</li>
+      <li>Usuários</li>
+    </ul>
+  </div>
 
-8. **Configurações** - Configurações do sistema
-   - ✅ Configuração do servidor
-   - ✅ Teste de conexão
-   - ✅ Documentação dos endpoints
-   - ✅ Validação de URLs
+  <div>
+    <h4>Vendas</h4>
+    <ul>
+      <li>Criar pedido</li>
+      <li>Adicionar itens</li>
+      <li>Registrar pagamentos</li>
+    </ul>
+  </div>
 
-### 🎯 **Funcionalidades Implementadas**
+  <div>
+    <h4>Sincronização</h4>
+    <ul>
+      <li>Enviar dados</li>
+      <li>Receber atualizações</li>
+      <li>Verificar erros</li>
+    </ul>
+  </div>
+</div>
 
-- **Autenticação**: Login funcional com usuário padrão
-- **Banco de Dados**: SQLite com todas as tabelas
-- **Validações**: CPF, CNPJ, campos obrigatórios
-- **API Externa**: Integração com ViaCEP
-- **Sincronização**: Sistema completo de sync
-- **Interface**: Material Design moderno
-- **Navegação**: Fluxo completo entre telas
+<hr/>
 
-### 📋 **Próximos Passos**
+<h2 id="contribuicao">🤝 Contribuição</h2>
 
-Para completar 100% do sistema:
+<p>
+  Contribuições são sempre bem-vindas! Para contribuir com o projeto:
+</p>
 
-1. **Formulário de Pedidos Completo**
+<ol>
+  <li>Faça um Fork do projeto</li>
+  <li>Crie uma Branch para sua Feature (<code>git checkout -b feature/AmazingFeature</code>)</li>
+  <li>Commit suas mudanças (<code>git commit -m 'Add some AmazingFeature'</code>)</li>
+  <li>Push para a Branch (<code>git push origin feature/AmazingFeature</code>)</li>
+  <li>Abra um Pull Request</li>
+</ol>
 
-   - Seleção de cliente e produtos
-   - Adição/remoção de itens
-   - Múltiplas formas de pagamento
-   - Validação de totais
+<h3>Padrões de Código</h3>
 
-2. **Melhorias Opcionais**
-   - Relatórios e dashboards
-   - Backup/restore de dados
-   - Configurações avançadas
-   - Temas personalizados
+<ul>
+  <li>Siga o guia de estilo do Flutter</li>
+  <li>Documente novas funcionalidades</li>
+  <li>Adicione testes quando possível</li>
+  <li>Mantenha o código limpo e organizado</li>
+</ul>
 
-## Tecnologias
+<hr/>
 
-- **Flutter** - Framework de desenvolvimento
-- **SQLite** - Banco de dados local
-- **HTTP** - Comunicação com servidor
-- **Material Design** - Interface do usuário
+<h2 id="licenca">📄 Licença</h2>
+
+<p>
+  Este projeto está sob a licença MIT. Veja o arquivo <a href="LICENSE">LICENSE</a> para mais detalhes.
+</p>
+
+<hr/>
+
+<div align="center">
+  <h2>📞 Suporte</h2>
+  
+  <p>
+    Para suporte, envie um email para <a href="mailto:seu-email@dominio.com">seu-email@dominio.com</a>
+    ou abra uma <a href="https://github.com/seu-usuario/forcesell/issues">issue</a> no projeto.
+  </p>
+  
+  <p>
+    <strong>Desenvolvido com ❤️ por [Seu Nome]</strong>
+  </p>
+</div>
