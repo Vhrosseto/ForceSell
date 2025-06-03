@@ -303,6 +303,7 @@ lib/
 
 <div align="center">
   <h2 id="desenvolvedores">👥 Desenvolvedores</h2>
+<h2>👥 Desenvolvedores</h2>
 <table>
   <tr>
     <th>Nome</th>
@@ -315,5 +316,9 @@ lib/
   <tr>
     <td>Gabriel Dondoni Pecly</td>
     <td>123100010</td>
+  </tr>
+<tr>
+    <td>Abner Guimarães Silveira</td>
+    <td>123100042</td>
   </tr>
 </table>
