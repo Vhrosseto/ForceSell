@@ -310,14 +310,18 @@ lib/
 <hr/>
 
 <div align="center">
-  <h2>📞 Suporte</h2>
-  
-  <p>
-    Para suporte, envie um email para <a href="mailto:seu-email@dominio.com">seu-email@dominio.com</a>
-    ou abra uma <a href="https://github.com/seu-usuario/forcesell/issues">issue</a> no projeto.
-  </p>
-  
-  <p>
-    <strong>Desenvolvido com ❤️ por [Seu Nome]</strong>
-  </p>
-</div>
+  <h2>👥 Desenvolvedores</h2>
+<table>
+  <tr>
+    <th>Nome</th>
+    <th>Matrícula</th>
+  </tr>
+  <tr>
+    <td>Victor Hugo Paulo Rosseto</td>
+    <td>123100013</td>
+  </tr>
+  <tr>
+    <td>Gabriel Dondoni Pecly</td>
+    <td>123100010</td>
+  </tr>
+</table>
